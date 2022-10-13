@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by LaunchCode
@@ -41,9 +42,9 @@ public class HomeController {
     @GetMapping("add")
     public String displayAddJobForm(Model model) {
         model.addAttribute("title", "Add Job");
+        model.addAttribute(new Job());
         model.addAttribute("employers", employerRepository.findAll());
         model.addAttribute("skills", skillRepository.findAll());
-        model.addAttribute(new Job());
         return "add";
     }
 
@@ -55,12 +56,14 @@ public class HomeController {
             model.addAttribute("title", "Add Job");
             return "add";
         }
-        model.addAttribute("employerId", employerRepository.findById(employerId));
-        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
-        newJob.setSkills(skillObjs);
+//        Optional<Employer> employerResult = employerRepository.findById(employerId);
+//        Employer employer = employerResult.get();
+//        newJob.setEmployer(employer);
+//        List<Skill> skillObjs = (List<Skill>) skillRepository.findAllById(skills);
+//        newJob.setSkills(skillObjs);
         jobRepository.save(newJob);
 
-        return "redirect:";
+        return "redirect:add";
     }
 
     @GetMapping("view/{jobId}")
